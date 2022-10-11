@@ -324,6 +324,13 @@ def pregunta_09():
     }
 
     """
+    
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
     data_1 = [line.split(",") for line in data]
 
     filtered_dict_list = [list(filter(lambda x: len(x)> 2, row)) for row in [row[5:] for row in data_1]]
