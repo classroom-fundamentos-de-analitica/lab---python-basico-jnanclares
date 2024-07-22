@@ -21,8 +21,13 @@ def pregunta_01():
     214
 
     """
-    return
-
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]   
+    
+    return sum([int(row[2]) for row in data])
 
 def pregunta_02():
     """
@@ -39,7 +44,21 @@ def pregunta_02():
     ]
 
     """
-    return
+    
+    from collections import Counter
+    
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]
+    
+    return sorted(list(Counter([row[0] for row in data]).items()))
+
+
+
+
+
 
 
 def pregunta_03():
@@ -57,7 +76,29 @@ def pregunta_03():
     ]
 
     """
-    return
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+        
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]
+
+    data_1 = [[row[0], int(row[1])] for row in data_1]
+
+
+    from collections import defaultdict
+
+
+    merged = defaultdict(lambda: [0])
+
+    for user, *values in data_1:               
+        merged[user] = [sum(i) for i in zip(values, merged[user])]
+        
+    
+    return sorted([(row[0], row[1][0]) for row in list(merged.items())])
+
+
 
 
 def pregunta_04():
@@ -82,7 +123,20 @@ def pregunta_04():
     ]
 
     """
-    return
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+
+    from collections import Counter
+
+    
+    data_2 = [line.split(",") for line in data]
+
+
+    return sorted(list(Counter([month[1] for month in [row[2].split("-") for row in data_2]]).items()))
+
 
 
 def pregunta_05():
@@ -100,7 +154,23 @@ def pregunta_05():
     ]
 
     """
-    return
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]
+
+    data_1 = [[row[0], int(row[1])] for row in data_1]
+
+
+    grouped = {}
+
+    for name, x in data_1:
+        grouped.setdefault(name, []).append((x))
+        
+    return sorted([(key[0], max(key[1]), min(key[1])) for key in grouped.items()])
 
 
 def pregunta_06():
@@ -125,7 +195,27 @@ def pregunta_06():
     ]
 
     """
-    return
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]
+
+    filtered_dict_list = [list(filter(lambda x: len(x)> 2, row)) for row in [row[5:] for row in data_1]]
+
+    data_dict = {}
+
+    for row in filtered_dict_list:
+        for value in row:
+            data_dict.setdefault(value[:3], []).append(int(value[4:]))
+    
+    return sorted([(key[0], min(key[1]), max(key[1])) for key in data_dict.items()])
+
+
+
+
 
 
 def pregunta_07():
@@ -149,7 +239,25 @@ def pregunta_07():
     ]
 
     """
-    return
+    
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]    
+    data_1 = [[row[0], int(row[1])] for row in data_1]
+
+    grouped = {}
+
+    for name, x in data_1:
+        grouped.setdefault(x, []).append((name))
+            
+        
+    return sorted([key for key in grouped.items()])
+
+
 
 
 def pregunta_08():
@@ -174,7 +282,26 @@ def pregunta_08():
     ]
 
     """
-    return
+    
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]
+    data_1 = [[row[0], int(row[1])] for row in data_1]  
+
+    grouped = {}
+
+    for name, x in data_1:
+        grouped.setdefault(x, []).append((name))
+    
+    
+    return sorted([(key[0], sorted(set(key[1]))) for key in grouped.items()])
+
+
+
 
 
 def pregunta_09():
@@ -197,7 +324,26 @@ def pregunta_09():
     }
 
     """
-    return
+    
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]
+
+    filtered_dict_list = [list(filter(lambda x: len(x)> 2, row)) for row in [row[5:] for row in data_1]]
+
+    data_dict = {}
+
+    for row in filtered_dict_list:
+        for value in row:
+            data_dict.setdefault(value[:3], []).append(int(value[4:]))
+    
+    return dict(sorted({key:len(value) for (key,value) in data_dict.items()}.items()))
+
+
 
 
 def pregunta_10():
@@ -218,7 +364,19 @@ def pregunta_10():
 
 
     """
-    return
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]
+    
+    
+    return [(row[0], len(list(filter(lambda x: len(x) < 2, row[3:]))), len(list(filter(lambda x: len(x) >2, row[3:])))) for row in data_1]
+
+
+
 
 
 def pregunta_11():
@@ -239,7 +397,28 @@ def pregunta_11():
 
 
     """
-    return
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]
+    values_list = [[list(filter(lambda x: len(x) < 2, row[3:])), int(row[1])]for row in data_1]
+
+    from collections import defaultdict
+
+
+    merged = defaultdict(lambda: [0])
+
+    for key, *values in values_list:
+        for i in key:
+            merged[i] = [sum(values) for values in zip(values,merged[i])]
+
+    return dict(sorted({key:value[0] for (key,value) in merged.items()}.items()))
+
+
+
 
 
 def pregunta_12():
@@ -257,4 +436,24 @@ def pregunta_12():
     }
 
     """
-    return
+    with open("data.csv", "r") as file:
+        data = file.readlines()
+    
+    data = [line.replace("\n", "") for line in data]
+    data = [line.replace("\t", ",") for line in data]  
+    
+    data_1 = [line.split(",") for line in data]
+    values_list = [[row[0], list(filter(lambda x: len(x) > 2, row[3:]))] for row in data_1]
+
+    valores = []
+
+    for i in values_list:
+        valores.append([i[0], [int(j[4:]) for j in i[1]]])
+
+
+    data_dict = {}
+
+    for row in valores:
+        data_dict.setdefault(row[0], []).append(sum(row[1]))
+
+    return dict(sorted({key:sum(value) for (key,value) in data_dict.items()}.items()))
